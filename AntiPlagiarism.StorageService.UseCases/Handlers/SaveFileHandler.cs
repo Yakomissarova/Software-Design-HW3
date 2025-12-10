@@ -18,10 +18,8 @@ public class SaveFileHandler : ISaveFileHandler
         string fileName,
         CancellationToken ct = default)
     {
-        // Доменная операция: репозиторий сам решает, как сохранить файл
         var storedFile = await _fileRepository.SaveAsync(fileStream, fileName, ct);
 
-        // Конвертируем домен → DTO для отдачи наружу
         return FileMapper.ToDto(storedFile);
     }
 }

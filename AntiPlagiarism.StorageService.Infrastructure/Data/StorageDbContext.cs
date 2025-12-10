@@ -4,10 +4,7 @@ namespace AntiPlagiarism.StorageService.Infrastructure.Data;
 
 public class StorageDbContext : DbContext
 {
-    public StorageDbContext(DbContextOptions<StorageDbContext> options)
-        : base(options)
-    {
-    }
+    public StorageDbContext(DbContextOptions<StorageDbContext> options) : base(options) {}
 
     public DbSet<StoredFileDto> Files => Set<StoredFileDto>();
 

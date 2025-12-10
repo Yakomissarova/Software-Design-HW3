@@ -14,8 +14,7 @@ public class LocalFileRepository : IFileRepository
     public LocalFileRepository(StorageDbContext dbContext, IConfiguration configuration)
     {
         _dbContext = dbContext;
-        _rootPath = configuration["Storage:RootPath"]
-                    ?? throw new InvalidOperationException("Storage:RootPath is not configured");
+        _rootPath = configuration["Storage:RootPath"] ?? throw new InvalidOperationException("Storage:RootPath is not configured");
         Directory.CreateDirectory(_rootPath);
     }
 
@@ -28,7 +27,6 @@ public class LocalFileRepository : IFileRepository
         var storedFileName = $"{id:N}_{fileName}";
         var fullPath = Path.Combine(_rootPath, storedFileName);
 
-        // 1. сохраняем файл на диск
         await using (var file = File.Create(fullPath))
         {
             await fileStream.CopyToAsync(file, ct);
@@ -36,7 +34,6 @@ public class LocalFileRepository : IFileRepository
 
         var fileInfo = new FileInfo(fullPath);
 
-        // 2. создаём доменную сущность
         var entity = new StoredFile
         {
             Id = id,
@@ -45,7 +42,6 @@ public class LocalFileRepository : IFileRepository
             UploadedAt = DateTime.UtcNow
         };
 
-        // 3. маппим в DTO и сохраняем в БД
         var dto = StoredFileMapper.ToDto(entity, fullPath);
 
         _dbContext.Files.Add(dto);

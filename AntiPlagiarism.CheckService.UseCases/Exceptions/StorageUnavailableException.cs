@@ -2,17 +2,7 @@
 
 public class StorageUnavailableException : Exception
 {
-    public StorageUnavailableException()
-    {
-    }
+    public StorageUnavailableException(string message) : base(message) {}
 
-    public StorageUnavailableException(string message)
-        : base(message)
-    {
-    }
-
-    public StorageUnavailableException(string message, Exception innerException)
-        : base(message, innerException)
-    {
-    }
+    public StorageUnavailableException(string message, Exception innerException) : base(message, innerException) {}
 }

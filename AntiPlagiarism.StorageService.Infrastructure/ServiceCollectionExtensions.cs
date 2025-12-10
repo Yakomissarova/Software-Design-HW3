@@ -9,7 +9,7 @@ namespace AntiPlagiarism.StorageService.Infrastructure;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddInfrastructure(
+    public static void AddInfrastructure(
         this IServiceCollection services,
         IConfiguration configuration)
     {
@@ -21,7 +21,5 @@ public static class ServiceCollectionExtensions
         });
 
         services.AddScoped<IFileRepository, LocalFileRepository>();
-
-        return services;
     }
 }

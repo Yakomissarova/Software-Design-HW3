@@ -45,7 +45,7 @@ public class FilesController : ControllerBase
     }
 
     /// <summary>
-    /// Скачивание файла по идентификатору.
+    /// Скачивание файла по id.
     /// </summary>
     [HttpGet("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]

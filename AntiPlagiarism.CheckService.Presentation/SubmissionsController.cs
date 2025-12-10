@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AntiPlagiarism.CheckService.UseCases.Exceptions;
+﻿using AntiPlagiarism.CheckService.UseCases.Exceptions;
 using AntiPlagiarism.CheckService.UseCases.Interfaces;
 using AntiPlagiarism.Shared.Dto;
 using Microsoft.AspNetCore.Http;

@@ -1,10 +1,7 @@
 using AntiPlagiarism.StorageService.Infrastructure;
 using AntiPlagiarism.StorageService.Infrastructure.Data;
 using AntiPlagiarism.StorageService.UseCases;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
 namespace AntiPlagiarism.StorageService.Host;
@@ -15,16 +12,16 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // 1. Application / UseCases
+        // Application / UseCases
         builder.Services.AddUseCases();
 
-        // 2. Infrastructure (SQLite + репозиторий)
+        // Infrastructure (SQLite + репозиторий)
         builder.Services.AddInfrastructure(builder.Configuration);
 
-        // 3. Presentation (контроллеры)
+        // Presentation (контроллеры)
         builder.Services.AddControllers();
 
-        // 4. Swagger
+        // Swagger
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(options =>
         {
@@ -37,7 +34,7 @@ public class Program
 
         var app = builder.Build();
 
-        // 5. Автоматические миграции
+        // Миграции
         using (var scope = app.Services.CreateScope())
         {
             var db = scope.ServiceProvider.GetRequiredService<StorageDbContext>();

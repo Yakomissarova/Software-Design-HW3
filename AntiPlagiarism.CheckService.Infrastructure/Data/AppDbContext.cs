@@ -5,10 +5,7 @@ namespace AntiPlagiarism.CheckService.Infrastructure.Data;
 
 public sealed class AppDbContext : DbContext
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options)
-        : base(options)
-    {
-    }
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {}
 
     public DbSet<SubmissionDto> Submissions { get; set; } = null!;
 
@@ -17,7 +14,6 @@ public sealed class AppDbContext : DbContext
         modelBuilder.Entity<SubmissionDto>(builder =>
         {
             builder.HasKey(s => s.Id);
-            builder.ToTable("Submissions");
 
             builder.Property(s => s.StudentId)
                 .IsRequired()
@@ -28,6 +24,10 @@ public sealed class AppDbContext : DbContext
                 .HasMaxLength(128);
 
             builder.Property(s => s.FileId)
+                .IsRequired()
+                .HasMaxLength(128);
+
+            builder.Property(s => s.ContentHash)
                 .IsRequired()
                 .HasMaxLength(128);
 

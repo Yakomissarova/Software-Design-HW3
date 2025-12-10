@@ -28,6 +28,11 @@ namespace AntiPlagiarism.CheckService.Infrastructure.Data.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ContentHash")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("FileId")
                         .IsRequired()
                         .HasMaxLength(128)
@@ -43,7 +48,7 @@ namespace AntiPlagiarism.CheckService.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Submissions", (string)null);
+                    b.ToTable("Submissions");
                 });
 #pragma warning restore 612, 618
         }

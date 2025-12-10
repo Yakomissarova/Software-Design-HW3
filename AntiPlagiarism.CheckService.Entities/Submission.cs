@@ -3,16 +3,18 @@
 public sealed class Submission
 {
     public Guid Id { get; init; } = Guid.NewGuid();
-    public string StudentId { get; init; }
-    public string AssignmentId { get; init; }
-    public string FileId { get; init; }
+    public string StudentId { get;}
+    public string AssignmentId { get;}
+    public string FileId { get;}
+    public string ContentHash { get; init; }
     public DateTimeOffset SubmittedAt { get; init; }
 
-    public Submission(string studentId, string assignmentId, string fileId)
+    public Submission(string studentId, string assignmentId, string fileId, string contentHash)
     {
         StudentId = studentId;
         AssignmentId = assignmentId;
         FileId = fileId;
+        ContentHash = contentHash;
         SubmittedAt = DateTimeOffset.UtcNow;
     }
 }

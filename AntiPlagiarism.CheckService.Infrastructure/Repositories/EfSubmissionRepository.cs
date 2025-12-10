@@ -3,11 +3,6 @@ using AntiPlagiarism.CheckService.Infrastructure.Data;
 using AntiPlagiarism.CheckService.Infrastructure.Data.Dto;
 using AntiPlagiarism.CheckService.UseCases.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace AntiPlagiarism.CheckService.Infrastructure.Repositories;
 
@@ -21,14 +16,19 @@ internal sealed class EfSubmissionRepository : ISubmissionRepository
     }
 
     private static Submission MapToEntity(SubmissionDto dto) =>
-        new(dto.StudentId, dto.AssignmentId, dto.FileId)
+        new (dto.StudentId, dto.AssignmentId, dto.FileId, dto.ContentHash)
         {
             Id = dto.Id,
             SubmittedAt = dto.SubmittedAt
         };
 
     private static SubmissionDto MapToDto(Submission entity) =>
-        new(entity.Id, entity.StudentId, entity.AssignmentId, entity.FileId, entity.SubmittedAt);
+        new (entity.Id,
+            entity.StudentId,
+            entity.AssignmentId,
+            entity.FileId,
+            entity.ContentHash,
+            entity.SubmittedAt);
 
     public async Task AddAsync(Submission submission, CancellationToken ct = default)
     {

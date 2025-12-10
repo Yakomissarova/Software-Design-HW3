@@ -1,12 +1,7 @@
 ﻿using AntiPlagiarism.Shared.Interfaces;
 using AntiPlagiarism.CheckService.UseCases.Interfaces;
 using AntiPlagiarism.CheckService.Entities;
-using System;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace AntiPlagiarism.CheckService.UseCases.Handlers;
+using System.Security.Cryptography;
 
 internal sealed class CreateSubmissionHandler : ICreateSubmissionHandler
 {
@@ -28,16 +23,28 @@ internal sealed class CreateSubmissionHandler : ICreateSubmissionHandler
         string fileName,
         CancellationToken ct = default)
     {
-        // 1. Загружаем файл в StorageService
-        var meta = await _storageClient.UploadAsync(file, fileName, ct);
+        await using var buffer = new MemoryStream();
+        await file.CopyToAsync(buffer, ct);
 
-        // 2. Создаём доменную сущность Submission
-        var submission = new Submission(studentId, assignmentId, meta.FileId);
+        // Считаем SHA256 по содержимому
+        buffer.Position = 0;
+        string contentHash;
+        using (var sha256 = SHA256.Create())
+        {
+            var hashBytes = await sha256.ComputeHashAsync(buffer, ct);
+            contentHash = Convert.ToHexString(hashBytes);
+        }
 
-        // 3. Сохраняем в БД через репозиторий
+        buffer.Position = 0;
+        var meta = await _storageClient.UploadAsync(buffer, fileName, ct);
+
+        var submission = new Submission(
+            studentId,
+            assignmentId,
+            meta.FileId,
+            contentHash);
+
         await _repo.AddAsync(submission, ct);
-
-        // 4. Возвращаем Id сдачи
         return submission.Id;
     }
 }

@@ -1,9 +1,5 @@
 ﻿using AntiPlagiarism.Shared.Dto;
 using AntiPlagiarism.CheckService.UseCases.Interfaces;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace AntiPlagiarism.CheckService.UseCases.Handlers;
 
@@ -30,10 +26,10 @@ internal sealed class AnalyzeSubmissionHandler : IAnalyzeHandler
 
         var all = await _repo.GetByAssignmentAsync(submission.AssignmentId, ct);
 
-        // правило: плагиат, если есть более ранняя сдача с тем же FileId
+        // правило: плагиат, если есть более ранняя сдача с тем же ContentHash
         bool isPlagiarism = all.Any(s =>
             s.Id != submission.Id &&
-            s.FileId == submission.FileId &&
+            s.ContentHash == submission.ContentHash &&
             s.SubmittedAt < submission.SubmittedAt);
 
         double similarity = isPlagiarism ? 1.0 : 0.0;

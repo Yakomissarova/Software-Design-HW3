@@ -1,9 +1,5 @@
 ﻿using AntiPlagiarism.Shared.Dto;
 using AntiPlagiarism.CheckService.UseCases.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace AntiPlagiarism.CheckService.UseCases.Handlers;
 
@@ -28,7 +24,7 @@ internal sealed class GetReportsByAssignmentHandler : IGetReportsByAssignmentHan
         {
             bool isPlagiarism = submissions.Any(s =>
                 s.Id != submission.Id &&
-                s.FileId == submission.FileId &&
+                s.ContentHash == submission.ContentHash &&
                 s.SubmittedAt < submission.SubmittedAt);
 
             double similarity = isPlagiarism ? 1.0 : 0.0;
