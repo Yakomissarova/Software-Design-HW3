@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>AntiPlagiarism.StorageService.Host</RootNamespace>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\AntiPlagiarism.CheckService.Infrastructure\AntiPlagiarism.CheckService.Infrastructure.csproj" />
+      <ProjectReference Include="..\AntiPlagiarism.CheckService.Presentation\AntiPlagiarism.CheckService.Presentation.csproj" />
+      <ProjectReference Include="..\AntiPlagiarism.CheckService.UseCases\AntiPlagiarism.CheckService.UseCases.csproj" />
+      <ProjectReference Include="..\AntiPlagiarism.Shared\AntiPlagiarism.Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        <PrivateAssets>all</PrivateAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
+      <PackageReference Include="Microsoft.OpenApi" Version="1.6.23" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
+    </ItemGroup>
+
+</Project>
