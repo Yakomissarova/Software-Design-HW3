@@ -180,7 +180,7 @@ Host - настройка сервисов, Swagger
        ```
             {
             "fileId": "8e7f2fcd-4b44-4a6e-a4c9-2c3c1a41d1c8",
-            "fileName": "my_document.docx",
+            "fileName": "my_document.txt",
             "size": 123456,
             "uploadedAt": "2025-12-10T20:14:31.123Z"
             }
@@ -196,6 +196,14 @@ Host - настройка сервисов, Swagger
 
 5. Реализация критериев
 - Микросервисная архитектура состоящая из двух микросервисов + API gateway описана выше
+- Обработка ошибок и отказоустойчивость микросервисов:
+    - При создании сдачи (POST /submissions) сервис проверки (Check Service) взаимодействует с сервисом хранения файлов (Storage Service) по HTTP. Если Storage Service недоступен или возвращает ошибку, HTTP-клиент HttpFileStorageClient генерирует специальное исключение StorageUnavailableException.
+    - Это исключение перехватывается на уровне контроллера SubmissionsController, после чего клиенту возвращается корректный HTTP-ответ:
+    ``` 503 Service Unavailable
+      {
+      "error": "Storage service is unavailable. Please try again later."
+      }
+
 - Контейнеризация:
     - Каждый сервис имеет свой Dockerfile (проект Host).
     - docker-compose.yml поднимает всю систему автоматически.
